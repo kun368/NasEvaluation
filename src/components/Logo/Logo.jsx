@@ -19,7 +19,7 @@ export default class Logo extends Component {
         }}
       >
         <a href="/" style={{ display: 'block', position: 'relative' }}>
-          <img src={logo} width="129" height="35" alt="logo" />
+          {/*<img width="129" height="35" alt="CodeKun" />*/}
         </a>
       </div>
     );

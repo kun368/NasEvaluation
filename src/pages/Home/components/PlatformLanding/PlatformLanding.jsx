@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@icedesign/base';
+import {Button, Search} from '@icedesign/base';
+import NebUtils from '../../../../util/NebUtils.js'
+import SchoolDataBase from '../../../../util/schools.js'
+
 
 export default class PlatformLanding extends Component {
   static displayName = 'PlatformLanding';
@@ -15,7 +18,15 @@ export default class PlatformLanding extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      dataSource: []
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      dataSource: SchoolDataBase.getSchoolLabel()
+    })
   }
 
   render() {
@@ -23,16 +34,22 @@ export default class PlatformLanding extends Component {
       <div style={styles.wrapper}>
         <div style={styles.body}>
           <h2 style={styles.title}>
-            在人工智能将替代一切的未来<br />唯有内容的创作无可替代
+            研究生导师口碑网
           </h2>
-          <div style={styles.buttons}>
-            <Button style={styles.secondaryButton} type="normal">
-              开通
-            </Button>
-            <Button style={styles.primaryButton} type="primary">
-              登录
-            </Button>
-          </div>
+          <span style={styles.title2}>
+            匿名加密&nbsp;&nbsp;/&nbsp;&nbsp;
+            永不丢失&nbsp;&nbsp;/&nbsp;&nbsp;
+            无法篡改
+          </span>
+          <Search
+            autoWidth
+            hasIcon={false}
+            size="large"
+            value={this.state.value}
+            onSearch={this.props.onSearch}
+            dataSource={this.state.dataSource}
+            placeholder="输入大学名称"
+          />
         </div>
       </div>
     );
@@ -40,7 +57,7 @@ export default class PlatformLanding extends Component {
 }
 
 const styles = {
-  buttons: { textAlign: 'center', marginTop: 33 },
+  buttons: {textAlign: 'center', marginTop: 33},
   body: {
     position: 'absolute',
     top: '190px',
@@ -56,7 +73,7 @@ const styles = {
     overflow: 'hidden',
     height: 720,
     backgroundImage:
-      'url("https://img.alicdn.com/tfs/TB1DgSmSpXXXXaJXpXXXXXXXXXX-2760-1480.jpg")',
+      'url("http://zzkun-tuchuang.oss-cn-hangzhou.aliyuncs.com/18-5-27/1315648.jpg")',
     position: 'relative',
     backgroundSize: 'cover',
     backgroundColor: '#66ABFF',
@@ -68,6 +85,11 @@ const styles = {
     letterSpacing: '2px',
     lineHeight: '48px',
     textAlign: 'center',
+  },
+  title2: {
+    color: '#333',
+    textAlign: 'center',
+    lineHeight: '48px',
   },
   primaryButton: {
     height: 50,

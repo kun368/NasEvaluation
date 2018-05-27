@@ -1,65 +1,25 @@
-import React, { Component } from 'react';
-import { Input, Balloon, Icon } from '@icedesign/base';
+import React, {Component} from 'react';
+import {Input, Balloon, Icon} from '@icedesign/base';
 import Menu from '@icedesign/menu';
 import Logo from '../Logo';
 import './Header.scss';
 
 const MENUS = [
   {
-    name: '设计',
-    path: '/ice/docs/ice-design',
+    name: '首页',
+    path: '/',
   },
   {
-    name: '文档',
-    path: '/ice/docs',
+    name: '反馈',
+    path: 'https://github.com/kun368/NasEvaluation/issues/new',
   },
   {
-    name: '物料',
-    children: [
-      {
-        name: '组件',
-        path: '/ice/component/button',
-      },
-      {
-        name: '区块',
-        path: '/ice/block',
-      },
-      {
-        name: '布局',
-        path: '/ice/layout',
-      },
-      {
-        name: '模板',
-        path: '/ice/scaffold',
-      },
-    ],
+    name: '开发者',
+    path: 'http://www.zzkun.com',
   },
   {
-    name: '工具',
-    children: [
-      {
-        name: 'ICEWORKS',
-        path: '/ice/iceworks',
-      },
-      {
-        name: 'Playground',
-        path: '/ice/playground',
-      },
-    ],
-  },
-  {
-    name: '社区',
-    children: [
-      {
-        name: '知乎专栏',
-        path: 'https://zhuanlan.zhihu.com/ice-design',
-      },
-      {
-        name: '万能群',
-        path:
-          'https://gw.alicdn.com/tfs/TB1iVfbe1SSBuNjy0FlXXbBpVXa-640-880.jpg',
-      },
-    ],
+    name: '下载Chrome插件',
+    path: 'https://github.com/ChengOrangeJu/WebExtensionWallet',
   },
 ];
 
@@ -84,7 +44,7 @@ export default class Header extends Component {
         >
           {menu.children.map((subMenu, idx) => {
             return (
-              <a href="#" className="custom-sub-menu" key={idx}>
+              <a href={subMenu.path} target="_blank" className="custom-sub-menu" key={idx}>
                 {subMenu.name}
               </a>
             );
@@ -101,7 +61,7 @@ export default class Header extends Component {
       }
       return (
         <Menu.Item key={menu.path}>
-          <a href={menu.path}>{menu.name}</a>
+          <a href={menu.path} target="_blank">{menu.name}</a>
         </Menu.Item>
       );
     });
@@ -111,7 +71,7 @@ export default class Header extends Component {
     return (
       <div className="header-container">
         <div className="header-content">
-          <Logo isDark={true} />
+          <Logo isDark={true}/>
           <div className="header-navbar">
             <Menu className="header-navbar-menu" mode="horizontal">
               {this.renderMenuItem()}
