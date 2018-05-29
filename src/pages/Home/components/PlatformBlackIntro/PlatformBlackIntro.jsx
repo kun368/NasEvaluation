@@ -22,24 +22,25 @@ export default class PlatformBlackIntro extends Component {
         }}
       >
         <div style={styles.body}>
-          <h2 style={styles.title}>多元化的商业机制</h2>
+          <h2 style={styles.title}>我们的优势</h2>
           <p style={styles.text}>
-            商品推广佣金，精准转化内容影响力<br />优质内容奖励
-            ，为优质内容创作者保驾护航<br />阿里V任务，为你的内容创作能力对接更多潜在客户
+            基于区块链的去中心化的导师评价口碑交流平台<br />
+            天然匿名加密，不惧隐私泄露<br />
+            数据永久可查，无法篡改
           </p>
         </div>
         <div style={styles.extraBody}>
           <img
             alt=""
-            src="https://img.alicdn.com/tfs/TB1opWDSpXXXXbwXFXXXXXXXXXX-1412-436.png"
+            src="http://zzkun-tuchuang.oss-cn-hangzhou.aliyuncs.com/18-5-29/77853974.jpg"
             height="218"
             width="706"
             style={styles.image}
           />
           <div style={styles.extraText}>
-            <p style={styles.extraTextItemLeft}>开放更多内容消费场景</p>
-            <p style={styles.extraTextItemCenter}>激励优质内容生产</p>
-            <p style={styles.extraTextItemRight}>连接品牌商家需求</p>
+            <p style={styles.extraTextItemLeft}>基于优秀的星云智能合约</p>
+            <p style={styles.extraTextItemCenter}>可按学院教师过滤查询</p>
+            <p style={styles.extraTextItemRight}>公平 公正 公开 信息匿名</p>
           </div>
         </div>
       </div>

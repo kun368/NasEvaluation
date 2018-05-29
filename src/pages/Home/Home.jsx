@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import PlatformIntro from './components/PlatformIntro';
-import PlatformToolsIntro from './components/PlatformToolsIntro';
-import PlatformJoinus from './components/PlatformJoinus';
 import PlatformLanding from './components/PlatformLanding';
 import PlatformBlackIntro from './components/PlatformBlackIntro';
 import SimpleTable from "./components/SimpleTable/SimpleTable";
@@ -62,10 +59,7 @@ export default class Home extends Component {
         <PlatformLanding onSearch={this.onSearchSchool}/>
         <SimpleTable tableData={this.state.tableData}/>
         <CreateActivityForm/>
-        <PlatformToolsIntro />
-        <PlatformIntro />
         <PlatformBlackIntro />
-        <PlatformJoinus />
         <Footer />
       </div>
     );

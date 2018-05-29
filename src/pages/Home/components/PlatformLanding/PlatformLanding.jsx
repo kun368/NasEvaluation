@@ -60,7 +60,7 @@ const styles = {
   buttons: {textAlign: 'center', marginTop: 33},
   body: {
     position: 'absolute',
-    top: '190px',
+    top: '150px',
     left: '50%',
     marginLeft: '-300px',
     width: '600px',
@@ -71,7 +71,7 @@ const styles = {
   },
   wrapper: {
     overflow: 'hidden',
-    height: 720,
+    height: 420,
     backgroundImage:
       'url("http://zzkun-tuchuang.oss-cn-hangzhou.aliyuncs.com/18-5-27/1315648.jpg")',
     position: 'relative',
