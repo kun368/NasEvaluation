@@ -1,27 +1,13 @@
-import React, { Component } from 'react';
-import { Table, Pagination } from '@icedesign/base';
+import React, {Component} from 'react';
+import {Table, Pagination, Rating, Balloon} from '@icedesign/base';
 import IceContainer from '@icedesign/container';
-import IceImg from '@icedesign/img';
-import DataBinder from '@icedesign/data-binder';
 import IceLabel from '@icedesign/label';
+import KunUtils from '../../../../util/KunUtils.js'
+import {Base64} from 'js-base64';
+import moment from 'moment';
 
-import { enquireScreen } from 'enquire-js';
+moment.locale('zh-cn');
 
-@DataBinder({
-  tableData: {
-    // 详细请求配置请参见 https://github.com/axios/axios
-    url: '/mock/simple-table-list.json',
-    params: {
-      page: 1,
-    },
-    defaultBindingData: {
-      list: [],
-      total: 100,
-      pageSize: 10,
-      currentPage: 1,
-    },
-  },
-})
 export default class SimpleTable extends Component {
   static displayName = 'SimpleTable';
 
@@ -32,87 +18,25 @@ export default class SimpleTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMobile: false,
-    };
+      filterParams: []
+    }
   }
 
-  componentDidMount() {
-    this.enquireScreenRegister();
-    this.fetchData({
-      page: 1,
-    });
-  }
+  renderAddress = (value) => {
+    const str = KunUtils.beautySub(value, 5);
+    const trigger =
+      <div>
+        {str}
+      </div>;
 
-  enquireScreenRegister = () => {
-    const mediaCondition = 'only screen and (max-width: 720px)';
-
-    enquireScreen((mobile) => {
-      this.setState({
-        isMobile: mobile,
-      });
-    }, mediaCondition);
-  };
-
-  fetchData = ({ page }) => {
-    this.props.updateBindingData('tableData', {
-      data: {
-        page,
-      },
-    });
-  };
-
-  renderTitle = (value, index, record) => {
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        <div>
-          <IceImg src={record.cover} width={48} height={48} />
-        </div>
-        <span
-          style={{
-            marginLeft: '10px',
-            lineHeight: '20px',
-          }}
-        >
-          {record.title}
-        </span>
-      </div>
+      <Balloon trigger={trigger} triggerType="hover">
+        {value}
+      </Balloon>
     );
   };
 
-  editItem = (record, e) => {
-    e.preventDefault();
-    // TODO: record 为该行所对应的数据，可自定义操作行为
-  };
-
-  renderOperations = (value, index, record) => {
-    return (
-      <div style={{ lineHeight: '28px' }}>
-        <a
-          href="#"
-          style={styles.operation}
-          target="_blank"
-          onClick={() => {
-            this.editItem(record);
-          }}
-        >
-          解决
-        </a>
-        <a href="#" style={styles.operation} target="_blank">
-          详情
-        </a>
-        <a href="#" style={styles.operation} target="_blank">
-          分类
-        </a>
-      </div>
-    );
-  };
-
-  renderStatus = (value) => {
+  renderSchool = (value) => {
     return (
       <IceLabel inverse={false} status="default">
         {value}
@@ -120,57 +44,150 @@ export default class SimpleTable extends Component {
     );
   };
 
-  changePage = (currentPage) => {
-    this.fetchData({
-      page: currentPage,
-    });
-  };
-
-  render() {
-    const tableData = this.props.bindingData.tableData;
+  renderContent = (value) => {
+    value = Base64.decode(value);
+    const str = KunUtils.beautySub(value, 5);
+    const trigger = <p>{str}</p>;
 
     return (
-      <div className="simple-table" style={{margin: '20px 15%'}}>
+      <Balloon trigger={trigger} triggerType="hover">
+        {value}
+      </Balloon>
+    );
+  };
+
+  renderTime = (value) => {
+    const t1 = moment(new Date(value)).format('LLLL');
+    const t2 = moment(new Date(value)).format('YYYY-MM-DD');
+    const trigger = <p>{t2}</p>;
+
+    return (
+      <Balloon trigger={trigger} triggerType="hover">
+        {t1}
+      </Balloon>
+    );
+  };
+
+  renderScore = (value) => {
+    const trigger = <Rating value={value.scoreSum} type="grade" showInfo={false}/>;
+
+    return (
+      <Balloon trigger={trigger} triggerType="hover">
+        <div>学术水平评分：<Rating value={value.scoreAcademic} type="grade"/></div>
+        <br/>
+        <div>科研经费评分：<Rating value={value.scoreFunding} type="grade"/></div>
+        <br/>
+        <div>师生关系评分：<Rating value={value.scoreRelationship} type="grade"/></div>
+        <br/>
+        <div>学生前途评分：<Rating value={value.scoreFuture} type="grade"/></div>
+        <br/>
+        <div>综合评价评分：<Rating value={value.scoreSum} type="grade"/></div>
+        <br/>
+      </Balloon>
+    );
+  };
+
+  onFilter(filterParams) {
+    console.log(filterParams);
+    this.setState({
+      filterParams: filterParams,
+    })
+  }
+
+  extractFilterLabel(tableData, name) {
+    let res = new Set(tableData.map(it => {
+      return it[name];
+    }));
+    res = new Array(...res).map(it => {
+      return {
+        label: it,
+        value: it
+      }
+    });
+    return res;
+  }
+
+  render() {
+    if (this.props.tableData.isShow === false) {
+      return '';
+    }
+
+    // 过滤
+    let tableData = this.props.tableData.list.slice();
+    for (let key in this.state.filterParams) {
+      let selectedKeys = this.state.filterParams[key].selectedKeys;
+      if (selectedKeys.length) {
+        tableData = tableData.filter(record => {
+          return selectedKeys.some(value => {
+            return record[key].indexOf(value) > -1;
+          });
+        });
+      }
+    }
+
+    // 转换数据格式
+    tableData.map(it => {
+      it.scores = {
+        scoreAcademic: parseInt(it.scoreAcademic),
+        scoreFunding: parseInt(it.scoreFunding),
+        scoreRelationship: parseInt(it.scoreRelationship),
+        scoreFuture: parseInt(it.scoreFuture),
+        scoreSum: parseInt(it.scoreSum)
+      }
+    });
+
+    return (
+      <div className="simple-table" style={{margin: '20px 12%'}}>
         <IceContainer>
           <Table
-            dataSource={tableData.list}
-            isLoading={tableData.__loading} // eslint-disable-line
+            dataSource={tableData}
             className="basic-table"
             hasBorder={false}
+            onFilter={this.onFilter.bind(this)}
           >
             <Table.Column
-              title="问题描述"
-              cell={this.renderTitle}
-              width={320}
-            />
-            <Table.Column title="问题分类" dataIndex="type" width={85} />
-            <Table.Column
-              title="发布时间"
-              dataIndex="publishTime"
-              width={150}
+              filters={this.extractFilterLabel(tableData, 'from')}
+              title="评价人"
+              dataIndex="from"
+              cell={this.renderAddress}
             />
             <Table.Column
-              title="状态"
-              dataIndex="publishStatus"
-              width={85}
-              cell={this.renderStatus}
+              title="学校"
+              dataIndex="school"
+              cell={this.renderSchool}
             />
             <Table.Column
-              title="操作"
-              dataIndex="operation"
-              width={150}
-              cell={this.renderOperations}
+              filters={this.extractFilterLabel(tableData, 'academy')}
+              title="学院"
+              dataIndex="academy"
+            />
+            <Table.Column
+              filters={this.extractFilterLabel(tableData, 'teacherName')}
+              title="导师姓名"
+              dataIndex="teacherName"
+            />
+            <Table.Column
+              title="综合评分"
+              dataIndex="scores"
+              cell={this.renderScore}
+            />
+
+            <Table.Column
+              title="证明认识导师"
+              dataIndex="proveContent"
+              cell={this.renderContent}
+            />
+            <Table.Column
+              title="评价内容"
+              dataIndex="content"
+              cell={this.renderContent}
+            />
+            <Table.Column
+              title="评价时间"
+              dataIndex="time"
+              cell={this.renderTime}
             />
           </Table>
-          <div style={styles.paginationWrapper}>
-            <Pagination
-              current={tableData.currentPage}
-              pageSize={tableData.pageSize}
-              total={tableData.total}
-              onChange={this.changePage}
-              type={this.state.isMobile ? 'simple' : 'normal'}
-            />
-          </div>
         </IceContainer>
       </div>
     );
