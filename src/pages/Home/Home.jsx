@@ -31,10 +31,6 @@ export default class Home extends Component {
     }
     key = key.trim();
 
-    if (!NebUtils.checkInstalledPlugin()) {
-      Toast.error('还未安装Chrome扩展，体验全部功能请点击页面上方的下载按钮！');
-      return;
-    }
     Toast.loading(`正在获取${key}的导师评价数据，请稍后...`);
     NebUtils.userCallAxios(
       "querySchool",

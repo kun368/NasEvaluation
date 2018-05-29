@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const nebPay = new NebPay();
 
-const dappAddress = "n1tQb7zpoXyZ9L7uDAdSUeGr9WDhMv4sLbz";
-const netType = "testnet";
+const dappAddress = "n1gbV7RtALiKEXCHHfmUoFpijS9qX49pFWR";
+const netType = "mainnet";
 
 export default class NebUtils {
 
