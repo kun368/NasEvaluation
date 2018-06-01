@@ -7,6 +7,7 @@ import SimpleTable from "./components/SimpleTable/SimpleTable";
 import CreateActivityForm from "./components/CreateActivityForm/CreateActivityForm";
 import NebUtils from "../../util/NebUtils";
 import {Feedback} from '@icedesign/base';
+import { Dialog } from '@icedesign/base';
 
 const Toast = Feedback.toast;
 
@@ -19,7 +20,7 @@ export default class Home extends Component {
       tableData: {
         list: [],
         isShow: false
-      }
+      },
       welcomeDialogShow: true,
     };
     this.onSearchSchool = this.onSearchSchool.bind(this);
