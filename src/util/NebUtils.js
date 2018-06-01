@@ -66,6 +66,20 @@ export default class NebUtils {
   };
 
   /**
+   * nebPay执行合约
+   */
+  static nebPayCall = (func, args, showQrCode, sucCallback) => {
+    nebPay.call(dappAddress, '0', func, args, {
+      qrcode: {
+        showQRCode: showQrCode,
+      },
+      listener: (resp) => {
+        sucCallback(resp.txhash);
+      },
+    });
+  };
+
+  /**
    * 获取插件中已登录的用户地址
    */
   static getPluginUserAddress = (callback) => {

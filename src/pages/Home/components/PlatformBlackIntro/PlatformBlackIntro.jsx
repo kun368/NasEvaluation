@@ -26,7 +26,8 @@ export default class PlatformBlackIntro extends Component {
           <p style={styles.text}>
             基于区块链的去中心化的导师评价口碑交流平台<br />
             天然匿名加密，不惧隐私泄露<br />
-            数据永久可查，无法篡改
+            数据永久可查，无法篡改<br />
+            支持跨平台使用，支持手机钱包<br />
           </p>
         </div>
         <div style={styles.extraBody}>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Button, Search} from '@icedesign/base';
+import {Button, Search, Icon} from '@icedesign/base';
 import NebUtils from '../../../../util/NebUtils.js'
 import SchoolDataBase from '../../../../util/schools.js'
 
@@ -34,12 +34,13 @@ export default class PlatformLanding extends Component {
       <div style={styles.wrapper}>
         <div style={styles.body}>
           <h2 style={styles.title}>
-            研究生导师口碑网
+            <Icon type="personal-center" size="xxl"/> &nbsp;研究生导师口碑网
           </h2>
           <span style={styles.title2}>
             匿名加密&nbsp;&nbsp;/&nbsp;&nbsp;
             永不丢失&nbsp;&nbsp;/&nbsp;&nbsp;
-            无法篡改
+            无法篡改&nbsp;&nbsp;/&nbsp;&nbsp;
+            支持移动端
           </span>
           <Search
             autoWidth

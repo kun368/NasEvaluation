@@ -21,6 +21,11 @@ const MENUS = [
     name: '下载Chrome插件',
     path: 'https://github.com/ChengOrangeJu/WebExtensionWallet',
   },
+  {
+    name: '下载手机钱包',
+    path: 'https://nano.nebulas.io/index_cn.html',
+  },
+
 ];
 
 export default class Header extends Component {

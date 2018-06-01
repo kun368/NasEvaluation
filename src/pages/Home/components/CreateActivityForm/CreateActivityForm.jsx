@@ -20,6 +20,7 @@ import {
 import {Base64} from 'js-base64';
 import NebUtils from '../../../../util/NebUtils.js'
 import SchoolDataBase from '../../../../util/schools.js'
+import $ from 'jquery';
 
 const {Row, Col} = Grid;
 const Toast = Feedback.toast;
@@ -61,6 +62,10 @@ export default class CreateActivityForm extends Component {
     });
   };
 
+  scrollTop() {
+    $("html,body").animate({scrollTop: 0}, 500);
+  }
+
   submit = () => {
     this.formRef.validateAll((errors, values) => {
       console.log('errors', errors, 'values', values);
@@ -70,11 +75,12 @@ export default class CreateActivityForm extends Component {
       if (!NebUtils.checkInstalledPlugin()) {
         Toast.error('还未安装Chrome扩展，请点击页面上方的下载按钮');
       }
+      this.scrollTop();
       const contract = {
         function: 'createEvaluation',
         args: `["${values.school.trim()}", "${values.academy.trim()}", "${values.teacherName.trim()}", "${values.scoreAcademic}", "${values.scoreFunding}", "${values.scoreRelationship}", "${values.scoreFuture}", "${values.scoreSum}",  "${Base64.encode(values.content)}", "${Base64.encode(values.proveContent)}"]`,
       };
-      NebUtils.pluginCall(contract.function, contract.args, (txHash) => {
+      NebUtils.nebPayCall(contract.function, contract.args, true, (txHash) => {
         Toast.success("已提交交易，交易成功后即创建导师评价成功，重新搜索可见！")
       });
     });
